@@ -1,0 +1,4 @@
+ability	land_unit
+#land_units_to_unit_abilites_junctions_tables;0;db/land_units_to_unit_abilites_junctions_tables/skc_rework_phase0	
+skc_rework_skullcannon_siege_mode	wh3_main_kho_veh_skullcannon_0
+skc_rework_skullcannon_assault_mode	wh3_main_kho_veh_skullcannon_0

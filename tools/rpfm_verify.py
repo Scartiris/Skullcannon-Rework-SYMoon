@@ -14,6 +14,14 @@ TABLES = [
     "db/land_units_tables/skc_rework_phase0",
     "db/missile_weapons_to_projectiles_tables/skc_rework_phase0",
     "db/projectile_shot_type_displays_tables/skc_rework_phase0",
+    "db/unit_special_abilities_tables/skc_rework_phase0",
+    "db/special_ability_to_special_ability_phase_junctions_tables/skc_rework_phase0",
+    "db/special_ability_phases_tables/skc_rework_phase0",
+    "db/special_ability_phase_stat_effects_tables/skc_rework_phase0",
+    "db/unit_special_ability_to_special_ability_toggle_groups_junctions_tables/skc_rework_phase0",
+    "db/special_ability_exclusive_toggle_groups_tables/skc_rework_phase0",
+    "db/land_units_to_unit_abilites_junctions_tables/skc_rework_phase0",
+    "db/projectiles_explosions_tables/skc_rework_phase0",
     "text/db/skc_rework.loc",
 ]
 TMP = Path(r"C:\Users\admin\AppData\Local\Temp\opencode\verify")
