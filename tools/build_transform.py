@@ -125,8 +125,10 @@ def main(argv):
         r[h.index("unique_id")] = str(uid)
         return r
 
-    dep = mk_ability(DEPLOY_AB, 5.0, 30.0, SIEGE_LAND, 810031201)
-    unde = mk_ability(UNDEPLOY_AB, 4.0, 10.0, SRC_UNIT, 810031202)
+    dep = mk_ability(DEPLOY_AB, 5.0, 30.0,
+                     os.environ.get("SKC_SPAWNED_DEPLOY", SIEGE_LAND), 810031201)
+    unde = mk_ability(UNDEPLOY_AB, 4.0, 10.0,
+                      os.environ.get("SKC_SPAWNED_UNDEPLOY", SRC_UNIT), 810031202)
     # SKC_ABILITIES=deploy|undeploy|both，单行二分用
     which = os.environ.get("SKC_ABILITIES", "both")
     ab_rows = {"deploy": [dep], "undeploy": [unde], "both": [dep, unde]}[which]
