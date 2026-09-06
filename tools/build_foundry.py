@@ -57,11 +57,11 @@ def main(argv):
     hi, veri, irows = read_tsv(vanilla / "vanilla_ids_unitsets.tsv")
     base_i = next(r for r in irows if r[hi.index("effect")] == SRC_AMMO_FX)
     ia = list(base_i)
-    ia[hi.index("bonus_value_id")] = "skc_ammo"
+    ia[hi.index("bonus_value_id")] = "ammo_mod"
     ia[hi.index("effect")] = EFF_AMMO
     ia[hi.index("unit_set")] = SET
     ib = list(base_i)
-    ib[hi.index("bonus_value_id")] = "skc_ap"
+    ib[hi.index("bonus_value_id")] = "missile_damage_ap_mod_add"
     ib[hi.index("effect")] = EFF_AP
     ib[hi.index("unit_set")] = SET
     write_tsv(outdir / "effect_bonus_value_ids_unit_sets_tables.tsv", hi, veri, [ia, ib])
