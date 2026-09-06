@@ -107,23 +107,19 @@ def main(argv):
     write_tsv(outdir / "main_units_tables.tsv", h, ver, [sm])
     log.append(f"main siege: {SIEGE_MAIN} (encyclopedia off)")
 
-    # --- 部署往返能力（paperpancake 底本） ---
-    h, ver, rows = read_tsv(vanilla / "vanilla_pancake.tsv")
-    base = rows[0]
+    # --- 部署往返能力（Caesar 底本整行照抄，只换 key/uid/目标/前摇/冷却/初始；
+    # R2-R6 证实 pancake 系写法在我包必崩，Caesar 系（shares=false 等）能进） ---
+    h, ver, rows = read_tsv(vanilla / "vanilla_caesar_abilities.tsv")
+    base = next(r for r in rows if r[0] == "wh3_main_lord_abilities_avatar_of_motherland")
 
     def mk_ability(key, wind_up, recharge, spawned, uid):
         r = list(base)
         r[0] = key
-        # SKC_ABILITY_PRESET=vanilla：除 key/uid 外逐字复制底本（终极对照用）
-        if os.environ.get("SKC_ABILITY_PRESET", "") != "vanilla":
-            # 驻留时长：默认 -1 无限；若引擎不接受变身无限驻留，用 SKC_ACTIVE_TIME 覆盖（如 3600）
-            r[h.index("active_time")] = os.environ.get("SKC_ACTIVE_TIME", "-1.0")
-            r[h.index("recharge_time")] = f"{recharge:.1f}"
-            r[h.index("num_uses")] = "-1"
-            r[h.index("wind_up_time")] = f"{wind_up:.1f}"
-            r[h.index("initial_recharge")] = "-1.0"
-            r[h.index("spawned_unit")] = spawned
-            r[h.index("voiceover_state")] = GENERIC_VO
+        r[h.index("wind_up_time")] = f"{wind_up:.1f}"
+        r[h.index("recharge_time")] = f"{recharge:.1f}"
+        r[h.index("initial_recharge")] = "0.0"
+        r[h.index("spawned_unit")] = spawned
+        r[h.index("audio_switch_ui_override")] = ""
         r[h.index("unique_id")] = str(uid)
         return r
 
