@@ -5,6 +5,7 @@ Caesar 式 land key 指向。active_time -1 无限驻留待实测。
 用法：python build_transform.py <vanilla_dir> <source_db_dir>
 """
 import csv
+import os
 import sys
 from pathlib import Path
 
@@ -113,7 +114,8 @@ def main(argv):
     def mk_ability(key, wind_up, recharge, spawned, uid):
         r = list(base)
         r[0] = key
-        r[h.index("active_time")] = "-1.0"
+        # 驻留时长：默认 -1 无限；若引擎不接受变身无限驻留，用 SKC_ACTIVE_TIME 覆盖（如 3600）
+        r[h.index("active_time")] = os.environ.get("SKC_ACTIVE_TIME", "-1.0")
         r[h.index("recharge_time")] = f"{recharge:.1f}"
         r[h.index("num_uses")] = "-1"
         r[h.index("wind_up_time")] = f"{wind_up:.1f}"
