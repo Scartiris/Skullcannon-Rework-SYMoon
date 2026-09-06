@@ -35,12 +35,12 @@ PASSIVES = [
 GENERIC_VO = "vo_battle_special_ability_generic_response"
 
 
-def write_loc_tsv(path, rows):
+def write_loc_tsv(path, version_row, rows):
     path.parent.mkdir(parents=True, exist_ok=True)
     with open(path, "w", encoding="utf-8", newline="") as f:
         w = csv.writer(f, delimiter="\t", lineterminator="\n")
         w.writerow(["key", "text", "tooltip"])
-        w.writerow(["#Loc;1;text/db/skc_rework.loc"])
+        w.writerow([version_row])
         w.writerows(rows)
 
 
@@ -198,25 +198,19 @@ def main(argv):
     write_tsv(outdir / "unit_description_historical_texts_tables.tsv", hl, verl, [[SIEGE_LONG]])
     log.append("text registry: siege short/long")
 
-    # --- 文本（fresh loc，只含变身版条目；单文本全局 fallback，中英合一） ---
-    write_loc_tsv(outdir / "skc_rework.loc.tsv", [
-        [f"unit_abilities_onscreen_name_{DEPLOY_AB}", "Deploy Siege Mode 架设攻城模式", "false"],
-        [f"unit_abilities_tooltip_text_{DEPLOY_AB}",
-         "Deploy into an immobile siege howitzer: extreme range and high-explosive shells, "
-         "but the cannon cannot move while deployed. "
-         "架设为固定攻城炮：超远射程、高爆炮弹，但架设期间无法移动。", "false"],
-        [f"unit_abilities_onscreen_name_{UNDEPLOY_AB}", "Limber Up 收炮机动", "false"],
-        [f"unit_abilities_tooltip_text_{UNDEPLOY_AB}",
-         "Limber the gun and return to a mobile assault gun with armour-piercing shot. "
-         "收炮并返回机动突击炮，恢复穿甲直射。", "false"],
-        [SIEGE_SHORT, "Skullcannon (Deployed) 颅骨魔炮（攻城架设）", "false"],
-        [SIEGE_LONG,
-         "A Skullcannon dug in as a fixed siege howitzer, hurling screaming skulls in high arcs "
-         "over field and wall alike. Its bound flesh strains while deployed. "
-         "架设为固定攻城炮的颅骨魔炮，以高抛弹道把尖啸颅骨砸向战场与城墙，束缚其中的血肉躁动难安。",
-         "false"],
-    ])
-    log.append("loc: abilities + siege unit texts")
+    # --- 文本：文案源 loc/skc_rework_text.csv 生成英文表 + 中文表（与原版 I18N 布局一致） ---
+    csv_path = Path(__file__).parent.parent / "loc" / "skc_rework_text.csv"
+    strings = []
+    with open(csv_path, encoding="utf-8", newline="") as f:
+        for r in csv.reader(f):
+            if not r or r[0].startswith("#") or r[0] == "key":
+                continue
+            strings.append(r)
+    write_loc_tsv(outdir / "skc_rework.loc.tsv", "#Loc;1;text/db/skc_rework.loc",
+                  [[k, en, "false"] for k, en, zh, *_ in strings])
+    write_loc_tsv(outdir / "skc_rework_cn.loc.tsv", "#Loc;1;text/localisation__.loc",
+                  [[k, zh, "false"] for k, en, zh, *_ in strings])
+    log.append("loc: EN db file + CN localisation file")
 
     print("\n".join(log))
     return 0

@@ -29,6 +29,7 @@ TABLES = [
     "db/effect_bundles_tables/skc_rework_phase0",
     "db/effect_bundles_to_effects_junctions_tables/skc_rework_phase0",
     "text/db/skc_rework.loc",
+    "text/localisation__.loc",
 ]
 TMP = Path(r"C:\Users\admin\AppData\Local\Temp\opencode\verify")
 
