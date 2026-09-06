@@ -12,6 +12,8 @@ TABLES = [
     ("projectiles_tables.tsv", "db/projectiles_tables/skc_rework_phase0", "projectiles_tables", 53),
     ("missile_weapons_tables.tsv", "db/missile_weapons_tables/skc_rework_phase0", "missile_weapons_tables", 11),
     ("land_units_tables.tsv", "db/land_units_tables/skc_rework_phase0", "land_units_tables", 54),
+    ("missile_weapons_to_projectiles_tables.tsv", "db/missile_weapons_to_projectiles_tables/skc_rework_phase0", "missile_weapons_to_projectiles_tables", 0),
+    ("projectile_shot_type_displays_tables.tsv", "db/projectile_shot_type_displays_tables/skc_rework_phase0", "projectile_shot_type_displays_tables", 1),
 ]
 
 

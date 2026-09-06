@@ -1,0 +1,3 @@
+missile_weapon	projectile
+#missile_weapons_to_projectiles_tables;0;db/missile_weapons_to_projectiles_tables/skc_rework_phase0	
+skc_rework_missile_skullcannon	skc_rework_projectile_siege

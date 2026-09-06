@@ -12,6 +12,7 @@ from pathlib import Path
 ASSAULT = "skc_rework_projectile_assault"
 SIEGE = "skc_rework_projectile_siege"
 WEAPON = "skc_rework_missile_skullcannon"
+SIEGE_DISPLAY = "skc_rework_siege_shot"
 SRC_PROJ = "wh3_main_kho_skullcannon_skull"
 SRC_WEAPON = "wh3_main_kho_skullcannon_skull"
 SRC_UNIT = "wh3_main_kho_veh_skullcannon_0"
@@ -63,8 +64,9 @@ def main(argv):
     siege[h.index("projectile_penetration")] = "low"
     siege[h.index("can_bounce")] = "false"
     siege[h.index("base_reload_time")] = "16.0"
+    siege[h.index("projectile_shot_type_display")] = SIEGE_DISPLAY
     write_tsv(outdir / "projectiles_tables.tsv", h, ver, [assault, siege])
-    log.append(f"projectiles: {SRC_PROJ} -> {ASSAULT}(range 280) + {SIEGE}(explosive/fixed/range 500/min 90/reload 16)")
+    log.append(f"projectiles: {SRC_PROJ} -> {ASSAULT}(range 280) + {SIEGE}(explosive/fixed/range 500/min 90/reload 16/display {SIEGE_DISPLAY})")
 
     # --- missile_weapons：1 新行 ---
     h, ver, rows = read_tsv(vanilla / "vanilla_missile_weapons.tsv")
@@ -82,6 +84,20 @@ def main(argv):
     unit[h.index("primary_missile_weapon")] = WEAPON
     write_tsv(outdir / "land_units_tables.tsv", h, ver, [unit])
     log.append(f"land_units: {SRC_UNIT}.primary_missile_weapon -> {WEAPON}（spike 临时覆盖）")
+
+    # --- missile_weapons_to_projectiles：武器 -> 攻城副弹（原生切换按钮的前提） ---
+    h, ver, rows = read_tsv(vanilla / "vanilla_mw_to_proj.tsv")
+    junction = [WEAPON, SIEGE]
+    write_tsv(outdir / "missile_weapons_to_projectiles_tables.tsv", h, ver, [junction])
+    log.append(f"mw_to_proj: {WEAPON} -> {SIEGE}")
+
+    # --- projectile_shot_type_displays：副弹按钮图标（复用 artillery_explosive 现成图标） ---
+    h, ver, rows = read_tsv(vanilla / "vanilla_shot_displays.tsv")
+    disp = ["UI_BAT_SABL_Generic_Enable", "artillery_explosive", SIEGE_DISPLAY]
+    order = ["ui_sound_event", "icon_name", "key"]
+    disp = [disp[order.index(c)] for c in h]
+    write_tsv(outdir / "projectile_shot_type_displays_tables.tsv", h, ver, [disp])
+    log.append(f"shot_displays: new {SIEGE_DISPLAY}(icon artillery_explosive)")
 
     print("\n".join(log))
     return 0
