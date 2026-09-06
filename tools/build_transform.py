@@ -60,15 +60,24 @@ def main(argv):
     write_tsv(outdir / "battle_entities_tables.tsv", h, ver, [ent])
     log.append(f"entity: {SIEGE_ENTITY} speed 0")
 
-    # --- siege mount ---
+    # --- siege mount（variant 指回原版外观：同模型，无新美术） ---
     h, ver, rows = read_tsv(vanilla / "vanilla_mounts.tsv")
     mnt = next(r for r in rows if r[0] == SRC_MOUNT)
     mnt = list(mnt)
     mnt[0] = SIEGE_MOUNT
     mnt[h.index("entity")] = SIEGE_ENTITY
-    mnt[h.index("variant")] = SIEGE_LAND
     write_tsv(outdir / "mounts_tables.tsv", h, ver, [mnt])
-    log.append(f"mount: {SIEGE_MOUNT}")
+    log.append(f"mount: {SIEGE_MOUNT} (variant reuse assault)")
+
+    # --- unit_variants：攻城形态登记（卡面复用原版） ---
+    h, ver, rows = read_tsv(vanilla / "vanilla_unit_variants.tsv")
+    base = next(r for r in rows if r[h.index("unit")] == SRC_UNIT)
+    uv = list(base)
+    uv[h.index("name")] = SIEGE_LAND
+    uv[h.index("unit")] = SIEGE_LAND
+    uv[h.index("unit_card")] = SRC_UNIT
+    write_tsv(outdir / "unit_variants_tables.tsv", h, ver, [uv])
+    log.append(f"variants: {SIEGE_LAND} (card reuse)")
 
     # --- siege land unit（并入 land_units_tables.tsv，与突击覆盖行同一文件） ---
     h, ver, rows = read_tsv(vanilla / "vanilla_land_units.tsv")

@@ -14,6 +14,7 @@ TABLES = [
     "db/land_units_tables/skc_rework_phase0",
     "db/battle_entities_tables/skc_rework_phase0",
     "db/mounts_tables/skc_rework_phase0",
+    "db/unit_variants_tables/skc_rework_phase0",
     "db/main_units_tables/skc_rework_phase0",
     "db/unit_special_abilities_tables/skc_rework_phase0",
     "db/land_units_to_unit_abilites_junctions_tables/skc_rework_phase0",
