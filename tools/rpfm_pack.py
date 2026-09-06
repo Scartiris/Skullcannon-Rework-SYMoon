@@ -41,8 +41,10 @@ def tsv_version(tsv_path):
 def main(argv):
     src, out_pack = argv[1], argv[2]
     only = set(argv[3].split(",")) if len(argv) > 3 else None
+    no_raw = len(argv) > 4 and argv[4] == "nolua"
     tables = [t for t in TABLES if (only is None or t[0] in only)]
     assert tables, "no tables selected"
+    raw_files = [] if no_raw else RAW_FILES
 
     def need_key(idx):
         def go(prev):
@@ -66,7 +68,7 @@ def main(argv):
         cmds.append(lambda prev, _p=path, _s=f"{src}/{tsv}": {"ImportTSV": [prev[1]["String"], _p, _s]})
     import os as _os
     _root = _os.path.dirname(_os.path.dirname(__file__))
-    for disk_rel, dest in RAW_FILES:
+    for disk_rel, dest in raw_files:
         disk = _os.path.join(_root, *disk_rel.split("/"))
         cmds.append(lambda prev, _d=disk, _t={"File": dest}: {"AddPackedFiles": [prev[1]["String"], [_d], [_t], None]})
     cmds.append(lambda prev: {"SavePackAs": [prev[1]["String"], out_pack]})
@@ -74,7 +76,7 @@ def main(argv):
 
     session, resps = send_many(cmds)
     print(f"session: {session} pack: {resps[1]}")
-    names = ["gamesel", "newpack", "settype"] + [f"newfile:{t}" for t, _p, _t, _k in tables] + [f"import:{t}" for t, _p, _t, _k in tables] + [f"raw:{d}" for _s, d in RAW_FILES] + ["save", "close"]
+    names = ["gamesel", "newpack", "settype"] + [f"newfile:{t}" for t, _p, _t, _k in tables] + [f"import:{t}" for t, _p, _t, _k in tables] + [f"raw:{d}" for _s, d in raw_files] + ["save", "close"]
     rc = 0
     for name, r in zip(names, resps):
         bad = isinstance(r, dict) and "Error" in r
