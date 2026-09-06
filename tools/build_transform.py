@@ -114,14 +114,16 @@ def main(argv):
     def mk_ability(key, wind_up, recharge, spawned, uid):
         r = list(base)
         r[0] = key
-        # 驻留时长：默认 -1 无限；若引擎不接受变身无限驻留，用 SKC_ACTIVE_TIME 覆盖（如 3600）
-        r[h.index("active_time")] = os.environ.get("SKC_ACTIVE_TIME", "-1.0")
-        r[h.index("recharge_time")] = f"{recharge:.1f}"
-        r[h.index("num_uses")] = "-1"
-        r[h.index("wind_up_time")] = f"{wind_up:.1f}"
-        r[h.index("initial_recharge")] = "-1.0"
-        r[h.index("spawned_unit")] = spawned
-        r[h.index("voiceover_state")] = GENERIC_VO
+        # SKC_ABILITY_PRESET=vanilla：除 key/uid 外逐字复制底本（终极对照用）
+        if os.environ.get("SKC_ABILITY_PRESET", "") != "vanilla":
+            # 驻留时长：默认 -1 无限；若引擎不接受变身无限驻留，用 SKC_ACTIVE_TIME 覆盖（如 3600）
+            r[h.index("active_time")] = os.environ.get("SKC_ACTIVE_TIME", "-1.0")
+            r[h.index("recharge_time")] = f"{recharge:.1f}"
+            r[h.index("num_uses")] = "-1"
+            r[h.index("wind_up_time")] = f"{wind_up:.1f}"
+            r[h.index("initial_recharge")] = "-1.0"
+            r[h.index("spawned_unit")] = spawned
+            r[h.index("voiceover_state")] = GENERIC_VO
         r[h.index("unique_id")] = str(uid)
         return r
 
