@@ -14,6 +14,7 @@ TABLES = [
     "db/land_units_tables/skc_rework_phase0",
     "db/missile_weapons_to_projectiles_tables/skc_rework_phase0",
     "db/projectile_shot_type_displays_tables/skc_rework_phase0",
+    "text/db/skc_rework.loc",
 ]
 TMP = Path(r"C:\Users\admin\AppData\Local\Temp\opencode\verify")
 

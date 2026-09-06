@@ -12,6 +12,7 @@ from pathlib import Path
 ASSAULT = "skc_rework_projectile_assault"
 SIEGE = "skc_rework_projectile_siege"
 WEAPON = "skc_rework_missile_skullcannon"
+ASSAULT_DISPLAY = "skc_rework_assault_shot"
 SIEGE_DISPLAY = "skc_rework_siege_shot"
 SRC_PROJ = "wh3_main_kho_skullcannon_skull"
 SRC_WEAPON = "wh3_main_kho_skullcannon_skull"
@@ -51,6 +52,7 @@ def main(argv):
     assault[0] = ASSAULT
     assault[h.index("effective_range")] = "280"
     assault[h.index("calibration_distance")] = "200"
+    assault[h.index("projectile_shot_type_display")] = ASSAULT_DISPLAY
     siege = list(base)
     siege[0] = SIEGE
     siege[h.index("shot_type")] = "artillery_explosive"
@@ -91,13 +93,28 @@ def main(argv):
     write_tsv(outdir / "missile_weapons_to_projectiles_tables.tsv", h, ver, [junction])
     log.append(f"mw_to_proj: {WEAPON} -> {SIEGE}")
 
-    # --- projectile_shot_type_displays：副弹按钮图标（复用 artillery_explosive 现成图标） ---
+    # --- projectile_shot_type_displays：双按钮图标（对标大小炮弹：cannon_default/cannon_canister） ---
     h, ver, rows = read_tsv(vanilla / "vanilla_shot_displays.tsv")
-    disp = ["UI_BAT_SABL_Generic_Enable", "artillery_explosive", SIEGE_DISPLAY]
-    order = ["ui_sound_event", "icon_name", "key"]
-    disp = [disp[order.index(c)] for c in h]
-    write_tsv(outdir / "projectile_shot_type_displays_tables.tsv", h, ver, [disp])
-    log.append(f"shot_displays: new {SIEGE_DISPLAY}(icon artillery_explosive)")
+    order = list(h)
+    def disp_row(icon, key):
+        vals = {"ui_sound_event": "UI_BAT_SABL_Generic_Enable", "icon_name": icon, "key": key}
+        return [vals[c] for c in order]
+    disps = [disp_row("cannon_default", ASSAULT_DISPLAY), disp_row("cannon_canister", SIEGE_DISPLAY)]
+    write_tsv(outdir / "projectile_shot_type_displays_tables.tsv", h, ver, disps)
+    log.append(f"shot_displays: {ASSAULT_DISPLAY}(cannon_default) + {SIEGE_DISPLAY}(cannon_canister)")
+
+    # --- loc：双按钮名称与说明（spike 版中英合一，Phase 5 做正式分语言） ---
+    loc_rows = [
+        [f"projectile_shot_type_displays_onscreen_name_{ASSAULT_DISPLAY}", "Assault Shot 突击弹", "false"],
+        [f"projectile_shot_type_displays_tooltip_text_{ASSAULT_DISPLAY}",
+         "Direct-fire armour-piercing shot for mobile warfare. 直射穿甲弹，适合机动野战。", "false"],
+        [f"projectile_shot_type_displays_onscreen_name_{SIEGE_DISPLAY}", "Siege Shot 攻城弹", "false"],
+        [f"projectile_shot_type_displays_tooltip_text_{SIEGE_DISPLAY}",
+         "High-arc explosive shell. Extreme range with a dead zone. 高抛爆破弹，超远射程，存在死区。", "false"],
+    ]
+    write_tsv(outdir / "skc_rework.loc.tsv", ["key", "text", "tooltip"],
+              ["#Loc;1;text/db/skc_rework.loc"], loc_rows)
+    log.append("loc: 4 rows assault/siege name+tooltip")
 
     print("\n".join(log))
     return 0
