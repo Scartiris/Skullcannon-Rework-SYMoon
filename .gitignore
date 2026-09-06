@@ -1,0 +1,29 @@
+# 二进制与本地构建产物不进 git（Build outputs stay local）
+pack/*.pack
+pack/*.pack.bak
+
+# RPFM 本地缓存与备份
+*.rpfm.bak
+*.tsv.bak
+source/db/*.bak
+.RPFM/
+rpfm_settings/
+
+# RPFM CLI / 工具本地副本（tools/ 只留 README pin 版本）
+tools/*.exe
+tools/*.zip
+
+# 系统与编辑器
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.vscode/
+.idea/
+*.swp
+*~
+
+# Python 临时（解析脚本用）
+__pycache__/
+*.pyc
+
+# 注意：任务书 docx 原件保留在仓库根目录（Spec stays in repo）

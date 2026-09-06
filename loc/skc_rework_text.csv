@@ -1,0 +1,13 @@
+# Loc 文本草稿（EN + CN）
+
+> WH3 文本最终进 `localisation`（loc）表，此 CSV 是双语草稿，定稿后由 RPFM 导入。
+> 键名一律 `skc_rework_` 前缀占位，Phase 5 前不冻结。
+
+key,en,zh-CN,备注
+skc_rework_siege_mode_name,Deploy Siege Mode,架设攻城模式,T4 解锁的主动切换（toggle）
+skc_rework_siege_mode_desc,"Immobilize the Skullcannon to fire long-range plunging shells. Minimum range applies.",将颅骨魔炮固定，以超远射程发射高抛炮弹。存在最小射程（死区）。,
+skc_rework_assault_mode_name,Return to Blood Hunt,返回血猎机动,收炮返回突击模式
+skc_rework_overpressure_name,"Daemonic Flesh: Overpressure",恶魔肉心：过压,T5 被动
+skc_rework_overpressure_desc,"Atop high Winds of Magic, siege firepower peaks. Single instance per faction.",高风档下攻城火力登峰造极。全派系唯一一份，不堆叠。,
+skc_rework_wom_low,Winds ebb: flesh weakens,魔法衰竭：肉心疲弱,0-20 档 tooltip 状态
+skc_rework_wom_high,Winds surge: flesh surges,魔法高涨：肉心沸腾,61-100 档 tooltip 状态
