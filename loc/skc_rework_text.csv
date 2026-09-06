@@ -1,13 +1,17 @@
-# Loc 文本草稿（EN + CN）
+# Loc 文案定稿对照（EN + CN，游戏内为单文本全局 fallback，故一串内双语）
 
-> WH3 文本最终进 `localisation`（loc）表，此 CSV 是双语草稿，定稿后由 RPFM 导入。
-> 键名一律 `skc_rework_` 前缀占位，Phase 5 前不冻结。
+> 此 CSV 是文案设计稿；实际进包的是 `source/db/skc_rework.loc.tsv`（由构建脚本生成）。
+> 能力图标：部署 `guerrilla_deploy` / 收炮 `redeploy`（原版 UI 资源）。
+> 加成包标题直接写在 bundles 表内（同双语格式）。
 
 key,en,zh-CN,备注
-skc_rework_siege_mode_name,Deploy Siege Mode,架设攻城模式,T4 解锁的主动切换（toggle）
-skc_rework_siege_mode_desc,"Immobilize the Skullcannon to fire long-range plunging shells. Minimum range applies.",将颅骨魔炮固定，以超远射程发射高抛炮弹。存在最小射程（死区）。,
-skc_rework_assault_mode_name,Return to Blood Hunt,返回血猎机动,收炮返回突击模式
-skc_rework_overpressure_name,"Daemonic Flesh: Overpressure",恶魔肉心：过压,T5 被动
-skc_rework_overpressure_desc,"Atop high Winds of Magic, siege firepower peaks. Single instance per faction.",高风档下攻城火力登峰造极。全派系唯一一份，不堆叠。,
-skc_rework_wom_low,Winds ebb: flesh weakens,魔法衰竭：肉心疲弱,0-20 档 tooltip 状态
-skc_rework_wom_high,Winds surge: flesh surges,魔法高涨：肉心沸腾,61-100 档 tooltip 状态
+unit_abilities_onscreen_name_skc_rework_deploy_siege,Deploy Siege Mode,架设攻城模式,突击形态主动能力（5s 前摇，不限次）
+unit_abilities_tooltip_text_skc_rework_deploy_siege,"Deploy into an immobile siege howitzer: extreme range and high-explosive shells, but the cannon cannot move while deployed.",架设为固定攻城炮：超远射程、高爆炮弹，但架设期间无法移动。,
+unit_abilities_onscreen_name_skc_rework_undeploy,Limber Up,收炮机动,攻城形态主动能力（4s 前摇，不限次）
+unit_abilities_tooltip_text_skc_rework_undeploy,Limber the gun and return to a mobile assault gun with armour-piercing shot.,收炮并返回机动突击炮，恢复穿甲直射。,
+skc_rework_siege_short,Skullcannon (Deployed),颅骨魔炮（攻城架设）,攻城形态单位短名
+skc_rework_siege_long,"A Skullcannon dug in as a fixed siege howitzer, hurling screaming skulls in high arcs over field and wall alike. Its bound flesh strains while deployed.",架设为固定攻城炮的颅骨魔炮，以高抛弹道把尖啸颅骨砸向战场与城墙，束缚其中的血肉躁动难安。,攻城形态单位长描述
+skc_rework_foundry_t4_title,Blood-Forged Shells,血铸炮弹,T4 铸造厂隐藏包标题（派系面板可见）
+skc_rework_foundry_t4_desc,Foundry blessing: Skullcannon ammunition and armour-piercing damage improved.,炼狱祝福：颅骨魔炮弹药与破甲提升。,
+skc_rework_foundry_t5_title,Skull-Forged Shells,颅铸炮弹,T5 铸造厂隐藏包标题
+skc_rework_foundry_t5_desc,Greater foundry blessing: greatly improved ammunition and armour-piercing damage for Skullcannons.,更强炼狱祝福：颅骨魔炮弹药与破甲大幅提升。,

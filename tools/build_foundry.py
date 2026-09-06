@@ -72,7 +72,7 @@ def main(argv):
     b4 = [""] * len(hb)
     b4[hb.index("key")] = BUNDLE_T4
     b4[hb.index("localised_title")] = "Blood-Forged Shells 血铸炮弹"
-    b4[hb.index("localised_description")] = "Foundry blessing: +ammunition and armour-piercing damage for Skullcannons. 炼狱祝福：颅骨魔炮弹药与破甲提升。"
+    b4[hb.index("localised_description")] = "Foundry blessing: Skullcannon ammunition and armour-piercing damage improved. 炼狱祝福：颅骨魔炮弹药与破甲提升。"
     b4[hb.index("bundle_target")] = "faction"
     b4[hb.index("priority")] = "0"
     b4[hb.index("ui_icon")] = ""
@@ -82,7 +82,7 @@ def main(argv):
     b5 = list(b4)
     b5[hb.index("key")] = BUNDLE_T5
     b5[hb.index("localised_title")] = "Skull-Forged Shells 颅铸炮弹"
-    b5[hb.index("localised_description")] = "Greater foundry blessing. 更强炼狱祝福。"
+    b5[hb.index("localised_description")] = "Greater foundry blessing: greatly improved ammunition and armour-piercing damage for Skullcannons. 更强炼狱祝福：颅骨魔炮弹药与破甲大幅提升。"
     write_tsv(outdir / "effect_bundles_tables.tsv", hb, verb, [b4, b5])
 
     # --- 包内效果行（T4/T5 全额值；scope 派系全军） ---

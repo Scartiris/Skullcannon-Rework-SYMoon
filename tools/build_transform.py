@@ -198,18 +198,22 @@ def main(argv):
     write_tsv(outdir / "unit_description_historical_texts_tables.tsv", hl, verl, [[SIEGE_LONG]])
     log.append("text registry: siege short/long")
 
-    # --- 文本（fresh loc，只含变身版条目） ---
+    # --- 文本（fresh loc，只含变身版条目；单文本全局 fallback，中英合一） ---
     write_loc_tsv(outdir / "skc_rework.loc.tsv", [
         [f"unit_abilities_onscreen_name_{DEPLOY_AB}", "Deploy Siege Mode 架设攻城模式", "false"],
         [f"unit_abilities_tooltip_text_{DEPLOY_AB}",
-         "Deploy into a fixed siege howitzer: extreme range and heavy shells, but cannot move. "
-         "架设为固定攻城炮：超远射程重型炮弹，但无法移动。", "false"],
+         "Deploy into an immobile siege howitzer: extreme range and high-explosive shells, "
+         "but the cannon cannot move while deployed. "
+         "架设为固定攻城炮：超远射程、高爆炮弹，但架设期间无法移动。", "false"],
         [f"unit_abilities_onscreen_name_{UNDEPLOY_AB}", "Limber Up 收炮机动", "false"],
         [f"unit_abilities_tooltip_text_{UNDEPLOY_AB}",
-         "Limber up and return to mobile assault gun. 收炮并返回机动突击炮。", "false"],
+         "Limber the gun and return to a mobile assault gun with armour-piercing shot. "
+         "收炮并返回机动突击炮，恢复穿甲直射。", "false"],
         [SIEGE_SHORT, "Skullcannon (Deployed) 颅骨魔炮（攻城架设）", "false"],
         [SIEGE_LONG,
-         "Skullcannon deployed as a fixed siege howitzer. 架设为固定攻城炮的颅骨魔炮。",
+         "A Skullcannon dug in as a fixed siege howitzer, hurling screaming skulls in high arcs "
+         "over field and wall alike. Its bound flesh strains while deployed. "
+         "架设为固定攻城炮的颅骨魔炮，以高抛弹道把尖啸颅骨砸向战场与城墙，束缚其中的血肉躁动难安。",
          "false"],
     ])
     log.append("loc: abilities + siege unit texts")
