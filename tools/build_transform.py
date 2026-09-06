@@ -131,6 +131,23 @@ def main(argv):
     which = os.environ.get("SKC_ABILITIES", "both")
     ab_rows = {"deploy": [dep], "undeploy": [unde], "both": [dep, unde]}[which]
     write_tsv(outdir / "unit_special_abilities_tables.tsv", h, ver, ab_rows)
+    log.append("abilities done")
+
+    # --- unit_abilities（战役侧 ability 定义：battle key 必须在此有对应行，否则启动 failfast；
+    # RPFM 报 InvalidReference 即此。图标 guerrilla_deploy / redeploy 均为原版 UI 资源） ---
+    hu, veru, urows = read_tsv(vanilla / "vanilla_unit_abilities.tsv")
+    base_u = next(r for r in urows if r[0] == "wh3_dlc24_lord_abilities_formless_horror_changeling")
+
+    def mk_camp_ability(key, icon):
+        r = list(base_u)
+        r[0] = key
+        r[hu.index("icon_name")] = icon
+        return r
+
+    write_tsv(outdir / "unit_abilities_tables.tsv", hu, veru,
+              [mk_camp_ability(DEPLOY_AB, "guerrilla_deploy"),
+               mk_camp_ability(UNDEPLOY_AB, "redeploy")])
+    log.append("unit_abilities: deploy/undeploy campaign rows")
     log.append(f"abilities: {DEPLOY_AB}(5s) + {UNDEPLOY_AB}(4s) active {dep[h.index('active_time')]}")
 
     # --- 单位挂载：突击=部署+被动，攻城=收炮+被动 ---
@@ -162,6 +179,13 @@ def main(argv):
             r[mh.index("explosion_type")] = "skc_rework_siege_explosion"
     write_tsv(mp, mh, mver, mdata)
     log.append("siege shell: 150+200 big explosion")
+
+    # --- 描述文本注册表（land 文本列引用它们，loc 键同名直解） ---
+    hs, vers, _ = read_tsv(vanilla / "vanilla_short_texts.tsv")
+    write_tsv(outdir / "unit_description_short_texts_tables.tsv", hs, vers, [[SIEGE_SHORT]])
+    hl, verl, _ = read_tsv(vanilla / "vanilla_long_texts.tsv")
+    write_tsv(outdir / "unit_description_historical_texts_tables.tsv", hl, verl, [[SIEGE_LONG]])
+    log.append("text registry: siege short/long")
 
     # --- 文本（fresh loc，只含变身版条目） ---
     write_loc_tsv(outdir / "skc_rework.loc.tsv", [
