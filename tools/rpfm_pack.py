@@ -9,6 +9,8 @@ from rpfm_baseline import send_many
 
 TABLES = [
     # (tsv 文件名, 包内路径, 表名/类型名, 种类型 DB/Loc；版本从 TSV 版本行自动读)
+    # 注意：abilities 放首位（包内互作排查：R1+能力单包崩、双包行，怀疑创建顺序/索引互作）
+    ("unit_special_abilities_tables.tsv", "db/unit_special_abilities_tables/skc_rework_phase0", "unit_special_abilities_tables", "DB"),
     ("projectiles_tables.tsv", "db/projectiles_tables/skc_rework_phase0", "projectiles_tables", "DB"),
     ("missile_weapons_tables.tsv", "db/missile_weapons_tables/skc_rework_phase0", "missile_weapons_tables", "DB"),
     ("land_units_tables.tsv", "db/land_units_tables/skc_rework_phase0", "land_units_tables", "DB"),
