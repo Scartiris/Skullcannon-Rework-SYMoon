@@ -1,0 +1,4 @@
+effect	icon	priority	icon_negative	category	is_positive_value_good
+#effects_tables;0;db/effects_tables/skc_rework_phase0					
+skc_rework_effect_ammo	ammo.png	511	ammo.png	battle	true
+skc_rework_effect_ap	armour_piercing_ranged.png	551	armour_piercing_ranged.png	battle	true

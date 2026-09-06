@@ -4,7 +4,7 @@
 -- only EVER reduces the fresh form down to the recorded fraction (never buffs).
 local SKC_ASSAULT = "wh3_main_kho_veh_skullcannon_0"
 local SKC_SIEGE = "skc_rework_skullcannon_siege"
-local SKC_TICK_MS = 2000
+local SKC_TICK_MS = 1000
 local SKC_PAIR_WINDOW_S = 8
 
 local skc_known = {} -- "all:army:ui" -> {kind, ammo, hp, seen_tick}

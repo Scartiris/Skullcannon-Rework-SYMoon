@@ -86,8 +86,9 @@ def main(argv):
     unit = next(r for r in rows if r[h.index("key")] == SRC_UNIT)
     unit = list(unit)
     unit[h.index("primary_missile_weapon")] = WEAPON
+    unit[h.index("primary_ammo")] = "20"
     write_tsv(outdir / "land_units_tables.tsv", h, ver, [unit])
-    log.append(f"land_units: {SRC_UNIT} -> {WEAPON}")
+    log.append(f"land_units: {SRC_UNIT} -> {WEAPON}, ammo 20")
 
     print("\n".join(log))
     return 0

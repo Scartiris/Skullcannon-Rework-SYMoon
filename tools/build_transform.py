@@ -87,6 +87,7 @@ def main(argv):
     sl[h.index("key")] = SIEGE_LAND
     sl[h.index("mount")] = SIEGE_MOUNT
     sl[h.index("primary_missile_weapon")] = SIEGE_WEAPON
+    sl[h.index("primary_ammo")] = "20"
     sl[h.index("short_description_text")] = SIEGE_SHORT
     sl[h.index("historical_description_text")] = SIEGE_LONG
     import csv as _csv
@@ -161,14 +162,21 @@ def main(argv):
     write_tsv(outdir / "land_units_to_unit_abilites_junctions_tables.tsv", hl, verl, lj)
     log.append("land junction: assault 6 + siege 6")
 
-    # --- 爆炸 + 攻城弹强化（沿用迫击炮放大思路） ---
+    # --- 爆炸：攻城放大反步，突击缩小精准 ---
     he, vere, erows = read_tsv(vanilla / "vanilla_explosions.tsv")
     mortar = next(r for r in erows if r[0] == "wh_main_emp_mortar_explosion")
     boom = list(mortar)
     boom[0] = "skc_rework_siege_explosion"
-    boom[he.index("detonation_damage")] = "70.0000"
-    boom[he.index("detonation_damage_ap")] = "20.0000"
-    write_tsv(outdir / "projectiles_explosions_tables.tsv", he, vere, [boom])
+    boom[he.index("detonation_radius")] = "7.0000"
+    boom[he.index("detonation_damage")] = "85.0000"
+    boom[he.index("detonation_damage_ap")] = "25.0000"
+    skull = next(r for r in erows if r[0] == "wh3_main_kho_skullcannon_skull_explosion")
+    snap = list(skull)
+    snap[0] = "skc_rework_assault_explosion"
+    snap[he.index("detonation_radius")] = "2.0000"
+    snap[he.index("detonation_damage")] = "5.0000"
+    snap[he.index("detonation_damage_ap")] = "12.0000"
+    write_tsv(outdir / "projectiles_explosions_tables.tsv", he, vere, [boom, snap])
     mp = outdir / "projectiles_tables.tsv"
     mrows = [r for r in csv.reader(open(mp, encoding="utf-8"), delimiter="\t") if r]
     mh, mver, mdata = mrows[0], mrows[1], mrows[2:]
@@ -177,8 +185,11 @@ def main(argv):
             r[mh.index("damage")] = "150"
             r[mh.index("ap_damage")] = "200"
             r[mh.index("explosion_type")] = "skc_rework_siege_explosion"
+            r[mh.index("bonus_v_infantry")] = "40"
+        elif r[0] == "skc_rework_projectile_assault":
+            r[mh.index("explosion_type")] = "skc_rework_assault_explosion"
     write_tsv(mp, mh, mver, mdata)
-    log.append("siege shell: 150+200 big explosion")
+    log.append("shells: siege 150+200 r7 anti-inf40 / assault small blast")
 
     # --- 描述文本注册表（land 文本列引用它们，loc 键同名直解） ---
     hs, vers, _ = read_tsv(vanilla / "vanilla_short_texts.tsv")

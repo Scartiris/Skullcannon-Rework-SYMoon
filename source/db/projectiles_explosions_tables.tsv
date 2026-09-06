@@ -1,3 +1,4 @@
 key	detonator_type	detonation_type	detonation_radius	detonation_duration	detonation_speed	detonation_damage	shrapnel	explosion_particle_effect	fuse_distance_from_target	explosion_particle_effect_on_ground	explosion_audio	contact_phase_effect	ignition_amount	is_magical	detonation_damage_ap	camera_shake	detonation_force	fuse_fixed_time	affects_allies	is_spell
 #projectiles_explosions_tables;19;db/projectiles_explosions_tables/skc_rework_phase0																				
-skc_rework_siege_explosion	percussive	shockwave	6.0000	0.0000	11.0000	70.0000		wh_main_generic_spherical_explosion_large	0.0000		wh_mortar		0.0000	false	20.0000	wh_main_unit_explosion_medium	260.0000	-1.0000	true	false
+skc_rework_siege_explosion	percussive	shockwave	7.0000	0.0000	11.0000	85.0000		wh_main_generic_spherical_explosion_large	0.0000		wh_mortar		0.0000	false	25.0000	wh_main_unit_explosion_medium	260.0000	-1.0000	true	false
+skc_rework_assault_explosion	percussive	shockwave	2.0000	1.0000	11.0000	5.0000			0.0000		wh3_main_kho_skullcannon_projectile		1.0000	false	12.0000	wh_main_unit_explosion_light	450.0000	-1.0000	true	false

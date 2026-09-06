@@ -1,0 +1,4 @@
+key	localised_description	localised_title	bundle_target	priority	ui_icon	is_global_effect	show_in_3d_space	owner_only
+#effect_bundles_tables;4;db/effect_bundles_tables/skc_rework_phase0								
+skc_rework_foundry_t4	Foundry blessing: +ammunition and armour-piercing damage for Skullcannons. 炼狱祝福：颅骨魔炮弹药与破甲提升。	Blood-Forged Shells 血铸炮弹	faction	0		true	false	true
+skc_rework_foundry_t5	Greater foundry blessing. 更强炼狱祝福。	Skull-Forged Shells 颅铸炮弹	faction	0		true	false	true

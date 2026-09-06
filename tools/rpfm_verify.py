@@ -22,6 +22,12 @@ TABLES = [
     "db/unit_description_historical_texts_tables/skc_rework_phase0",
     "db/land_units_to_unit_abilites_junctions_tables/skc_rework_phase0",
     "db/projectiles_explosions_tables/skc_rework_phase0",
+    "db/effects_tables/skc_rework_phase0",
+    "db/effect_bonus_value_ids_unit_sets_tables/skc_rework_phase0",
+    "db/unit_sets_tables/skc_rework_phase0",
+    "db/unit_set_to_unit_junctions_tables/skc_rework_phase0",
+    "db/effect_bundles_tables/skc_rework_phase0",
+    "db/effect_bundles_to_effects_junctions_tables/skc_rework_phase0",
     "text/db/skc_rework.loc",
 ]
 TMP = Path(r"C:\Users\admin\AppData\Local\Temp\opencode\verify")
