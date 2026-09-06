@@ -128,7 +128,7 @@ def main(argv):
     dep = mk_ability(DEPLOY_AB, 5.0, 30.0, SIEGE_LAND, 810031201)
     unde = mk_ability(UNDEPLOY_AB, 4.0, 10.0, SRC_UNIT, 810031202)
     write_tsv(outdir / "unit_special_abilities_tables.tsv", h, ver, [dep, unde])
-    log.append(f"abilities: {DEPLOY_AB}(5s) + {UNDEPLOY_AB}(4s) active -1")
+    log.append(f"abilities: {DEPLOY_AB}(5s) + {UNDEPLOY_AB}(4s) active {dep[h.index('active_time')]}")
 
     # --- 单位挂载：突击=部署+被动，攻城=收炮+被动 ---
     hl, verl, _ = read_tsv(vanilla / "vanilla_land_ability.tsv")
