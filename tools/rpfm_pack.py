@@ -18,7 +18,6 @@ TABLES = [
     ("mounts_tables.tsv", "db/mounts_tables/skc_rework_phase0", "mounts_tables", "DB"),
     ("unit_variants_tables.tsv", "db/unit_variants_tables/skc_rework_phase0", "unit_variants_tables", "DB"),
     ("main_units_tables.tsv", "db/main_units_tables/skc_rework_phase0", "main_units_tables", "DB"),
-    ("unit_special_abilities_tables.tsv", "db/unit_special_abilities_tables/skc_rework_phase0", "unit_special_abilities_tables", "DB"),
     ("land_units_to_unit_abilites_junctions_tables.tsv", "db/land_units_to_unit_abilites_junctions_tables/skc_rework_phase0", "land_units_to_unit_abilites_junctions_tables", "DB"),
     ("projectiles_explosions_tables.tsv", "db/projectiles_explosions_tables/skc_rework_phase0", "projectiles_explosions_tables", "DB"),
     ("skc_rework.loc.tsv", "text/db/skc_rework.loc", "skc_rework", "Loc"),
