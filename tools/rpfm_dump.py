@@ -45,16 +45,17 @@ def main(argv):
     print(f"table: {t.get('table_name')} v{t['definition'].get('version')} container={rf.get('container_name')}")
     print(f"columns({len(fields)}): {', '.join(fields)}")
     print(f"rows: {len(rows)}")
-    if pattern is None:
-        for r in rows[:2]:
-            print(json.dumps(dict(zip(fields, r if isinstance(r, list) else r.values())), ensure_ascii=True)[:2000])
-        return 0
-    pat = pattern.lower()
 
     def cells_of(r):
         return r if isinstance(r, list) else list(r.values())
 
-    hits = [r for r in rows if any(pat in str(v).lower() for v in cells_of(r))]
+    if pattern is None or pattern == "*":
+        for r in rows:
+            print(json.dumps(dict(zip(fields, cells_of(r))), ensure_ascii=True)[:2000])
+        return 0
+    pat = pattern.lower()
+
+    hits = [r for r in rows if any(pat in str(x).lower() for x in cells_of(r))]
     print(f"hits for {pattern!r}: {len(hits)}")
     for r in hits:
         print(json.dumps(dict(zip(fields, cells_of(r))), ensure_ascii=True))

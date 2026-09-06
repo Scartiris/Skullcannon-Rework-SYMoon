@@ -57,18 +57,22 @@ def ensure_server(timeout=120):
 
 
 def send_many(commands, ws_url="ws://127.0.0.1:45127/ws", timeout=900):
+    """commands 可混入 callable(prev_resps)->command，用于依赖前序结果的链式调用（同 session）。"""
     ensure_server()
     ws = websocket.create_connection(ws_url, timeout=timeout)
     hello = json.loads(ws.recv())
     session = hello["data"]["SessionConnected"]
     out = []
-    for i, cmd in enumerate(commands, start=1):
+    i = 0
+    for cmd in commands:
+        if callable(cmd):
+            cmd = cmd(out)
+        i += 1
         ws.send(json.dumps({"id": i, "data": cmd}))
         resp = json.loads(ws.recv())
         assert resp["id"] == i, resp
         out.append(resp["data"])
-    nxt = len(commands) + 1
-    ws.send(json.dumps({"id": nxt, "data": "ClientDisconnecting"}))
+    ws.send(json.dumps({"id": i + 1, "data": "ClientDisconnecting"}))
     ws.close()
     return session, out
 
