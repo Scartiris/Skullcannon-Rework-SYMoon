@@ -6,8 +6,6 @@ pack/*.pack.bak
 *.rpfm.bak
 *.tsv.bak
 source/db/*.bak
-# 中文底表（27MB 生成物，不进仓；丢了跑 tools/loc_export_cn.py 从 local_cn.pack 重导）
-source/db/skc_rework_cn.loc.tsv
 .RPFM/
 rpfm_settings/
 

@@ -198,9 +198,11 @@ def main(argv):
     write_tsv(outdir / "unit_description_historical_texts_tables.tsv", hl, verl, [[SIEGE_LONG]])
     log.append("text registry: siege short/long")
 
-    # --- 文本：文案源 loc/skc_rework_text.csv 生成英文表 + 中文表（与原版 I18N 布局一致） ---
-    # 注意：text/localisation__.loc 同路径为整体替换语义，中文文件必须全量复制原版中文底表
-    # （loc_cn_all.tsv，缺失则跑 tools/loc_export_cn.py 生成），再追加我们行，否则中文 UI 被清空！
+    # --- 文本：文案源 loc/skc_rework_text.csv 生成英文表 + 中文表 ---
+    # 英文进 text/db（原版英文布局）；中文进 text/!!!!!!translated_locs.loc——
+    # RPFM Translator 同款约定：同 key 冲突时路径字母序优先者胜，! 排序最前故中文胜出；
+    # 且与原版中文文件不同路径，不存在整体替换清空风险，只需 6 行。
+    # 注意：中文底表全量复制方案已废弃（localisation__.loc 同路径替换语义危险，此路径 union 安全）。
     csv_path = Path(__file__).parent.parent / "loc" / "skc_rework_text.csv"
     strings = []
     with open(csv_path, encoding="utf-8", newline="") as f:
@@ -210,16 +212,9 @@ def main(argv):
             strings.append(r)
     write_loc_tsv(outdir / "skc_rework.loc.tsv", "#Loc;1;text/db/skc_rework.loc",
                   [[k, en, "false"] for k, en, zh, *_ in strings])
-    cn_base_path = vanilla / "loc_cn_all.tsv"
-    if not cn_base_path.exists():
-        raise SystemExit("缺 loc_cn_all.tsv：先跑 tools/loc_export_cn.py 从 local_cn.pack 导出")
-    cn_rows = [r for r in csv.reader(open(cn_base_path, encoding="utf-8"), delimiter="\t") if r]
-    cn_ver, cn_data = cn_rows[1], cn_rows[2:]
-    ours = {k for k, _en, _zh, *_ in strings}
-    cn_data = [r for r in cn_data if r[0] not in ours]
-    cn_data += [[k, zh, "false"] for k, _en, zh, *_ in strings]
-    write_loc_tsv(outdir / "skc_rework_cn.loc.tsv", cn_ver[0], cn_data)
-    log.append(f"loc: EN db file + CN full-copy ({len(cn_data)} rows)")
+    write_loc_tsv(outdir / "skc_rework_cn.loc.tsv", "#Loc;1;text/!!!!!!translated_locs.loc",
+                  [[k, zh, "false"] for k, en, zh, *_ in strings])
+    log.append("loc: EN db file + CN !!!!!! file (tie-break first-wins)")
 
     print("\n".join(log))
     return 0
