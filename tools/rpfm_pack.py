@@ -29,8 +29,8 @@ TABLES = [
     ("unit_set_to_unit_junctions_tables.tsv", "db/unit_set_to_unit_junctions_tables/skc_rework_phase0", "unit_set_to_unit_junctions_tables", "DB"),
     ("effect_bundles_tables.tsv", "db/effect_bundles_tables/skc_rework_phase0", "effect_bundles_tables", "DB"),
     ("effect_bundles_to_effects_junctions_tables.tsv", "db/effect_bundles_to_effects_junctions_tables/skc_rework_phase0", "effect_bundles_to_effects_junctions_tables", "DB"),
-    ("skc_rework.loc.tsv", "text/db/skc_rework.loc", "skc_rework", "Loc"),
     ("skc_rework_cn.loc.tsv", "text/localisation__.loc", "localisation__", "Loc"),
+    ("skc_rework.loc.tsv", "text/db/skc_rework.loc", "skc_rework", "Loc"),
 ]
 # 磁盘源文件 -> 包内文本路径（AddPackedFiles 直塞，不经过 TSV）
 RAW_FILES = [
