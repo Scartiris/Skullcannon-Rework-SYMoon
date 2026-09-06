@@ -9,9 +9,9 @@ from pathlib import Path
 from rpfm_baseline import send_many
 
 TABLES = [
-    "db/projectiles_tables/data__",
-    "db/missile_weapons_tables/data__",
-    "db/land_units_tables/data__",
+    "db/projectiles_tables/skc_rework_phase0",
+    "db/missile_weapons_tables/skc_rework_phase0",
+    "db/land_units_tables/skc_rework_phase0",
 ]
 TMP = Path(r"C:\Users\admin\AppData\Local\Temp\opencode\verify")
 

@@ -27,6 +27,10 @@ def read_tsv(path):
 
 def write_tsv(path, header, version_row, rows):
     path.parent.mkdir(parents=True, exist_ok=True)
+    # 版本行内嵌路径必须与包内文件名一致（MOD 表用独立文件名，不用 data__）
+    parts = version_row[0].split(";")
+    parts[2] = f"db/{parts[0][1:]}/skc_rework_phase0"
+    version_row = [";".join(parts)] + version_row[1:]
     with open(path, "w", encoding="utf-8", newline="") as f:
         w = csv.writer(f, delimiter="\t", lineterminator="\n")
         w.writerow(header)
