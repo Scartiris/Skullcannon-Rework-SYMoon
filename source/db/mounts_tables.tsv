@@ -1,0 +1,3 @@
+key	animation	entity	audio_armour_type	variant	voiceover
+#mounts_tables;10;db/mounts_tables/skc_rework_phase0					
+skc_rework_mnt_siege	wm_wh3_skullcannon_blood_throne01	skc_rework_entity_siege	plate	skc_rework_skullcannon_siege	vo_culture_Invalid

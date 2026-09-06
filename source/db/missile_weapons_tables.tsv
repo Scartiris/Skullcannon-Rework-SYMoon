@@ -1,3 +1,4 @@
 key	precursor	default_projectile	audio_type	use_secondary_ammo_pool
 #missile_weapons_tables;11;db/missile_weapons_tables/skc_rework_phase0				
 skc_rework_missile_skullcannon	false	skc_rework_projectile_assault		false
+skc_rework_missile_siege	false	skc_rework_projectile_siege		false

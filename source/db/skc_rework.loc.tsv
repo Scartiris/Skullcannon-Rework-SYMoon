@@ -1,10 +1,8 @@
 key	text	tooltip
-#Loc;1;db/Loc/skc_rework_phase0
-projectile_shot_type_displays_onscreen_name_skc_rework_assault_shot	Assault Shot 突击弹	false
-projectile_shot_type_displays_tooltip_text_skc_rework_assault_shot	Direct-fire armour-piercing shot for mobile warfare. 直射穿甲弹，适合机动野战。	false
-projectile_shot_type_displays_onscreen_name_skc_rework_siege_shot	Siege Shot 攻城弹	false
-projectile_shot_type_displays_tooltip_text_skc_rework_siege_shot	High-arc explosive shell. Extreme range with a dead zone. 高抛爆破弹，超远射程，存在死区。	false
-unit_abilities_onscreen_name_skc_rework_skullcannon_siege_mode	Deploy Siege Mode 架设攻城模式	false
-unit_abilities_tooltip_text_skc_rework_skullcannon_siege_mode	Deploy into a fixed siege howitzer: extreme range and heavy shells, but cannot move. 架设为固定攻城炮：超远射程重型炮弹，但无法移动。	false
-unit_abilities_onscreen_name_skc_rework_skullcannon_assault_mode	Return to Blood Hunt 返回血猎机动	false
-unit_abilities_tooltip_text_skc_rework_skullcannon_assault_mode	Limber up and return to mobile assault gun. 收炮并返回机动突击炮。	false
+#Loc;1;text/db/skc_rework.loc
+unit_abilities_onscreen_name_skc_rework_deploy_siege	Deploy Siege Mode 架设攻城模式	false
+unit_abilities_tooltip_text_skc_rework_deploy_siege	Deploy into a fixed siege howitzer: extreme range and heavy shells, but cannot move. 架设为固定攻城炮：超远射程重型炮弹，但无法移动。	false
+unit_abilities_onscreen_name_skc_rework_undeploy	Limber Up 收炮机动	false
+unit_abilities_tooltip_text_skc_rework_undeploy	Limber up and return to mobile assault gun. 收炮并返回机动突击炮。	false
+skc_rework_siege_short	Skullcannon (Deployed) 颅骨魔炮（攻城架设）	false
+skc_rework_siege_long	Skullcannon deployed as a fixed siege howitzer. 架设为固定攻城炮的颅骨魔炮。	false

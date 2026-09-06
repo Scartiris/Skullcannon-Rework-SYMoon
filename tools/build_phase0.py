@@ -1,8 +1,8 @@
-"""Phase 0 构建：由原版 TSV 生成 MOD TSV（只含目标行）。
+"""Phase 0 构建（变身架构）：双弹丸 + 双武器，无原生切换按钮。
 
-输入：tools 之前从 db.pack 导出的 vanilla TSV（放 Temp，不进仓）。
-输出：source/db/*.tsv（进仓）+ 变更清单打印。
-
+输入：Temp 下 vanilla TSV。输出：source/db/*.tsv。
+- assault/siege 炮弹 display 均为 placeholder（不变身不切换，形态即弹种）。
+- 突击武器默认突击弹，攻城武器默认攻城弹。
 用法：python build_phase0.py <vanilla_dir> <source_db_dir>
 """
 import csv
@@ -12,8 +12,7 @@ from pathlib import Path
 ASSAULT = "skc_rework_projectile_assault"
 SIEGE = "skc_rework_projectile_siege"
 WEAPON = "skc_rework_missile_skullcannon"
-ASSAULT_DISPLAY = "skc_rework_assault_shot"
-SIEGE_DISPLAY = "skc_rework_siege_shot"
+SIEGE_WEAPON = "skc_rework_missile_siege"
 SRC_PROJ = "wh3_main_kho_skullcannon_skull"
 SRC_WEAPON = "wh3_main_kho_skullcannon_skull"
 SRC_UNIT = "wh3_main_kho_veh_skullcannon_0"
@@ -45,14 +44,14 @@ def main(argv):
     outdir = Path(argv[2])
     log = []
 
-    # --- projectiles：1 原版行 -> assault + siege ---
+    # --- projectiles：assault 280 直射 / siege 500 高抛（见 build_transform 强化伤害） ---
     h, ver, rows = read_tsv(vanilla / "vanilla_projectiles.tsv")
     base = next(r for r in rows if r[0] == SRC_PROJ)
     assault = list(base)
     assault[0] = ASSAULT
     assault[h.index("effective_range")] = "280"
     assault[h.index("calibration_distance")] = "200"
-    assault[h.index("projectile_shot_type_display")] = ASSAULT_DISPLAY
+    assault[h.index("projectile_shot_type_display")] = "placeholder"
     siege = list(base)
     siege[0] = SIEGE
     siege[h.index("shot_type")] = "artillery_explosive"
@@ -66,55 +65,29 @@ def main(argv):
     siege[h.index("projectile_penetration")] = "low"
     siege[h.index("can_bounce")] = "false"
     siege[h.index("base_reload_time")] = "16.0"
-    siege[h.index("projectile_shot_type_display")] = SIEGE_DISPLAY
+    siege[h.index("projectile_shot_type_display")] = "placeholder"
     write_tsv(outdir / "projectiles_tables.tsv", h, ver, [assault, siege])
-    log.append(f"projectiles: {SRC_PROJ} -> {ASSAULT}(range 280) + {SIEGE}(explosive/fixed/range 500/min 90/reload 16/display {SIEGE_DISPLAY})")
+    log.append(f"projectiles: {ASSAULT}(280) + {SIEGE}(500 high-arc)")
 
-    # --- missile_weapons：1 新行 ---
+    # --- missile_weapons：突击武器 + 攻城武器（各默认一发，无 junction 即无切换按钮） ---
     h, ver, rows = read_tsv(vanilla / "vanilla_missile_weapons.tsv")
     base = next(r for r in rows if r[0] == SRC_WEAPON)
     weapon = list(base)
     weapon[0] = WEAPON
     weapon[h.index("default_projectile")] = ASSAULT
-    write_tsv(outdir / "missile_weapons_tables.tsv", h, ver, [weapon])
-    log.append(f"missile_weapons: new {WEAPON} default={ASSAULT}")
+    siege_w = list(base)
+    siege_w[0] = SIEGE_WEAPON
+    siege_w[h.index("default_projectile")] = SIEGE
+    write_tsv(outdir / "missile_weapons_tables.tsv", h, ver, [weapon, siege_w])
+    log.append(f"missile_weapons: {WEAPON} + {SIEGE_WEAPON}")
 
-    # --- land_units：覆盖原版行 primary_missile_weapon（spike 临时指向，Phase 1 建独立单位后移除） ---
+    # --- land_units：原版突击形态指向突击武器 ---
     h, ver, rows = read_tsv(vanilla / "vanilla_land_units.tsv")
     unit = next(r for r in rows if r[h.index("key")] == SRC_UNIT)
     unit = list(unit)
     unit[h.index("primary_missile_weapon")] = WEAPON
     write_tsv(outdir / "land_units_tables.tsv", h, ver, [unit])
-    log.append(f"land_units: {SRC_UNIT}.primary_missile_weapon -> {WEAPON}（spike 临时覆盖）")
-
-    # --- missile_weapons_to_projectiles：武器 -> 攻城副弹（原生切换按钮的前提） ---
-    h, ver, rows = read_tsv(vanilla / "vanilla_mw_to_proj.tsv")
-    junction = [WEAPON, SIEGE]
-    write_tsv(outdir / "missile_weapons_to_projectiles_tables.tsv", h, ver, [junction])
-    log.append(f"mw_to_proj: {WEAPON} -> {SIEGE}")
-
-    # --- projectile_shot_type_displays：双按钮图标（对标大小炮弹：cannon_default/cannon_canister） ---
-    h, ver, rows = read_tsv(vanilla / "vanilla_shot_displays.tsv")
-    order = list(h)
-    def disp_row(icon, key):
-        vals = {"ui_sound_event": "UI_BAT_SABL_Generic_Enable", "icon_name": icon, "key": key}
-        return [vals[c] for c in order]
-    disps = [disp_row("cannon_default", ASSAULT_DISPLAY), disp_row("cannon_canister", SIEGE_DISPLAY)]
-    write_tsv(outdir / "projectile_shot_type_displays_tables.tsv", h, ver, disps)
-    log.append(f"shot_displays: {ASSAULT_DISPLAY}(cannon_default) + {SIEGE_DISPLAY}(cannon_canister)")
-
-    # --- loc：双按钮名称与说明（spike 版中英合一，Phase 5 做正式分语言） ---
-    loc_rows = [
-        [f"projectile_shot_type_displays_onscreen_name_{ASSAULT_DISPLAY}", "Assault Shot 突击弹", "false"],
-        [f"projectile_shot_type_displays_tooltip_text_{ASSAULT_DISPLAY}",
-         "Direct-fire armour-piercing shot for mobile warfare. 直射穿甲弹，适合机动野战。", "false"],
-        [f"projectile_shot_type_displays_onscreen_name_{SIEGE_DISPLAY}", "Siege Shot 攻城弹", "false"],
-        [f"projectile_shot_type_displays_tooltip_text_{SIEGE_DISPLAY}",
-         "High-arc explosive shell. Extreme range with a dead zone. 高抛爆破弹，超远射程，存在死区。", "false"],
-    ]
-    write_tsv(outdir / "skc_rework.loc.tsv", ["key", "text", "tooltip"],
-              ["#Loc;1;text/db/skc_rework.loc"], loc_rows)
-    log.append("loc: 4 rows assault/siege name+tooltip")
+    log.append(f"land_units: {SRC_UNIT} -> {WEAPON}")
 
     print("\n".join(log))
     return 0
